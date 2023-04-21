@@ -4,24 +4,164 @@ author: "Stefan Quintana, Sofía Escobar, Wilfredo Gallegos"
 date: "04/21/2023"
 output: html_document
 ---
+# Hoja de Trabajo 7
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+## 1 y 2, conjuntos de entrenamiento y transformacion de la base de datos
 
-```{r, echo=FALSE}
+```{r, echo =FALSE}
 library(dplyr)
 library(rpart)
 library(rpart.plot)
 library(caret)
-library(tree)
-library(randomForest)
+library(profvis)
 library(ggplot2)
 library(tidyr)
 library(e1071)
 library(caret)
+library(dummy)
+library(ModelMetrics)
+
+#Se cargan los datos
+datos <- read.csv("C:/Users/pablo/Downloads/train.csv")
+datosCasas <- datos2 <- dplyr::select_if(datos, is.numeric)
+
+# Se dejan las variables cuya magnitud sea metros cuadrados y se quitan las que tienen multicorrelacion
+
+datosCasas$GarageCars<-NULL
+datosCasas$YearRemodAdd<-NULL
+datosCasas$TotRmsAbvGrd<-NULL
+datosCasas$FullBath<-NULL
+datosCasas$GarageYrBlt<-NULL
+datosCasas$BedroomAbvGr<-NULL
+datosCasas$LotFrontage<-NULL
+datosCasas$YearBuilt<-NULL
+datosCasas$BsmtFullBath<-NULL
+datosCasas$HalfBath<-NULL
+datosCasas$BsmtHalfBath<-NULL
+datosCasas$KitchenAbvGr<-NULL
+datosCasas$Fireplaces<-NULL
+datosCasas$MiscVal<-NULL
+datosCasas$YrSold<-NULL
+datosCasas$MoSold<-NULL
+
+# Correlacion 
+cor(datosCasas)
+
+#Quitar variables multicorrelacionadas
+datosCasas$TotalBsmtSF<-NULL
+datosCasas$X2ndFlrSF<-NULL
+datosCasas$BsmtUnfSF<-NULL
+
+# Se agrega la cariable clasificatoria
+datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 290000, 1, ifelse(datosCasas$SalePrice>170000, 2, 3))
+datosCasas$SalePrice <- NULL
+
+datosCasas[2] <- lapply(datosCasas[2], as.integer)
+
+porcentaje<-0.7
+set.seed(123)
 
 
+corte <- sample(nrow(datos),nrow(datos)*porcentaje)
+train<-datosCasas[corte,]
+test<-datosCasas[-corte,]
+```
+
+## 3 modelo con variable respuesta clasificacion
+
+```{r, echo =FALSE}
+modelosvm<-svm(clasificacion~., data = train, scale = F)
+
+summary(modelosvm)
+modelosvm$index
 
 ```
 
+## 4 generar varios modelos cambiando valores de gamma y kernels
+```{r, echo=FALSE}
+#Modelos lineales
+modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear") 
+modeloL2<-svm(clasificacion~., data=train, cost=2^-5, kernel="linear") 
+modeloL3<-svm(clasificacion~., data=train, cost=0.5, kernel="linear") 
+
+summary(modeloL1)
+summary(modeloL2)
+summary(modeloL3)
+
+#Modelos radiales
+modeloR1<-svm(clasificacion~., data=train, gamma=2^-5, kernel="radial")
+modeloR2<-svm(clasificacion~., data=train, gamma=2^1, kernel="radial")
+modeloR3<-svm(clasificacion~., data=train, gamma= 0.07142857 , kernel="radial")
+
+summary(modeloR1)
+summary(modeloR2)
+summary(modeloR3)
+
+#Modelos polinomiales
+modeloP1<-svm(clasificacion~., data=train,type="C-classification", gamma=1, kernel="polynomial", coef0=1, degree= 8) 
+modeloP2<-svm(clasificacion~., data=train,type="C-classification", gamma=5, kernel="polynomial", coef0=1)
+modeloP3<-svm(clasificacion~., data=train,type="C-classification", gamma=2^-5, kernel="polynomial", coef0=1)
+
+summary(modeloP1)
+summary(modeloP2)
+summary(modeloP3)
+
+```
+
+# 5 Predicciones
+```{r, echo=FALSE}
+#Modelos lineales
+prediccionL1 <- predict(modeloL1, newdata = test)
+prediccionL2 <- predict(modeloL2, newdata = test)
+prediccionL3 <- predict(modeloL3, newdata = test)
+
+#Modelos radiales
+prediccionR1 <- predict(modeloR1, newdata = test)
+prediccionR2 <- predict(modeloR1, newdata = test)
+prediccionR3 <- predict(modeloR1, newdata = test)
+
+#Modelos polinomiales
+prediccionP1 <- predict(modeloP1, newdata = test)
+prediccionP2 <- predict(modeloP2, newdata = test)
+prediccionP3 <- predict(modeloP3, newdata = test)
+```
+
+# 6 Matrices de confusion
+```{r, echo=FALSE}
+#Modelos lineales
+confusionMatrix(test$clasificacion,prediccionL1)
+confusionMatrix(test$clasificacion,prediccionL2)
+confusionMatrix(test$clasificacion,prediccionL3)
+
+#Modelos Radiales
+confusionMatrix(test$clasificacion,prediccionR1)
+confusionMatrix(test$clasificacion,prediccionR2)
+confusionMatrix(test$clasificacion,prediccionR3)
+
+#Modelos polinomiales
+confusionMatrix(test$clasificacion,prediccionP1)
+confusionMatrix(test$clasificacion,prediccionP2)
+confusionMatrix(test$clasificacion,prediccionP3)
+```
+
+# modelos tuneados
+```{r, echo=FALSE}
+#Modelo lineal tuneado
+modeloLTuneado <-tune.svm(clasificacion~., data=train, cost=c(0.01,0.1,0.5,1,5,10,16,20,32), kernel="linear")
+
+#Modelo radial tuneado
+modeloRTuneado <-tune.svm(clasificacion~., data=train, gamma = c(0.01,0.1,0.5,1,2, 5,10,20,32), kernel="radial")
+```
+
+# predicciones modelos tuneados
+
+```{r, echo =FALSE}
+prediccionLTuneado <- predict(modeloLTuneado$best.model, newdata = test)
+prediccionRTuneado <- predict(modeloRTuneado$best.model, newdata = test)
+``` 
+
+# Nuevas matrices de confusion
+```{r, echo=FALSE}
+confusionMatrix(test$clasificacion,prediccionLTuneado)
+confusionMatrix(test$clasificacion,prediccionRTuneado)
+```
