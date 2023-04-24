@@ -1,0 +1,6 @@
+memory profiling: sample.interval=20000
+:3237609:11253633:245901992:0:".Call" ".rs.enqueClientEvent" "hook" "Rprof" 
+:3243331:11545677:247001552:807:"[.data.frame" "[" "na.omit.data.frame" "na.action" "svm.default" "svm.formula" "svm" 
+:2778164:4379956:174771296:178:"factor" "as.factor" "svm.default" "svm.formula" "svm" 
+:2778712:4659691:174892088:104:".C" "predict.svm" "predict" "na.action" "svm.default" "svm.formula" "svm" 
+:2803026:4675776:178830344:1501:"modifyList" "str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" "try" "...elt" "withVisible" "capture.output" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.withTimeLimit" ".rs.valueFromStr" ".rs.valueContentsImpl" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.valueContents" ".rs.describeObject" 

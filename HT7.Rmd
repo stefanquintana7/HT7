@@ -6,7 +6,7 @@ output: html_document
 ---
 # Hoja de Trabajo 7
 
-## 1 y 2, conjuntos de entrenamiento y transformacion de la base de datos
+## Preguntas 1 y 2. conjuntos de entrenamiento y transformacion de la base de datos
 
 ```{r, echo =FALSE}
 library(dplyr)
@@ -17,12 +17,11 @@ library(profvis)
 library(ggplot2)
 library(tidyr)
 library(e1071)
-library(caret)
 library(dummy)
 library(ModelMetrics)
 
 #Se cargan los datos
-datos <- read.csv("C:/Users/pablo/Downloads/train.csv")
+datos <- read.csv("train.csv")
 datosCasas <- datos2 <- dplyr::select_if(datos, is.numeric)
 
 # Se dejan las variables cuya magnitud sea metros cuadrados y se quitan las que tienen multicorrelacion
@@ -40,7 +39,7 @@ datosCasas$HalfBath<-NULL
 datosCasas$BsmtHalfBath<-NULL
 datosCasas$KitchenAbvGr<-NULL
 datosCasas$Fireplaces<-NULL
-datosCasas$MiscVal<-NULL
+datosCasas$Missvmal<-NULL
 datosCasas$YrSold<-NULL
 datosCasas$MoSold<-NULL
 
@@ -53,7 +52,7 @@ datosCasas$X2ndFlrSF<-NULL
 datosCasas$BsmtUnfSF<-NULL
 
 # Se agrega la cariable clasificatoria
-datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 290000, 1, ifelse(datosCasas$SalePrice>170000, 2, 3))
+datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
 datosCasas$SalePrice <- NULL
 
 datosCasas[2] <- lapply(datosCasas[2], as.integer)
@@ -67,40 +66,72 @@ train<-datosCasas[corte,]
 test<-datosCasas[-corte,]
 ```
 
-## 3 modelo con variable respuesta clasificacion
+## Pregunta 3. Modelo con variable respuesta clasificacion
 
 ```{r, echo =FALSE}
 modelosvm<-svm(clasificacion~., data = train, scale = F)
-
 summary(modelosvm)
-modelosvm$index
-
 ```
 
-## 4 generar varios modelos cambiando valores de gamma y kernels
+## Pregunta 4. generar varios modelos cambiando valores de gamma y kernels
+
 ```{r, echo=FALSE}
 #Modelos lineales
-modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear") 
-modeloL2<-svm(clasificacion~., data=train, cost=2^-5, kernel="linear") 
+Rprof(memory.profiling = TRUE)
+modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear")
+Rprof(NULL)
+l1<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
+modeloL2<-svm(clasificacion~., data=train, cost=2^-5, kernel="linear")
+Rprof(NULL)
+l2<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
 modeloL3<-svm(clasificacion~., data=train, cost=0.5, kernel="linear") 
+Rprof(NULL)
+l3<-summaryRprof(memory = "both")
 
 summary(modeloL1)
 summary(modeloL2)
 summary(modeloL3)
 
 #Modelos radiales
-modeloR1<-svm(clasificacion~., data=train, gamma=2^-5, kernel="radial")
-modeloR2<-svm(clasificacion~., data=train, gamma=2^1, kernel="radial")
-modeloR3<-svm(clasificacion~., data=train, gamma= 0.07142857 , kernel="radial")
+Rprof(memory.profiling = TRUE)
+modeloR1<-svm(clasificacion~., data=train, gamma=2^5, kernel="radial")
+Rprof(NULL)
+r1<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
+modeloR2<-svm(clasificacion~., data=train, gamma=2^-5, kernel="radial")
+Rprof(NULL)
+r2<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
+modeloR3<-svm(clasificacion~., data=train, gamma= 0.5 , kernel="radial")
+Rprof(NULL)
+r3<-summaryRprof(memory = "both")
+
 
 summary(modeloR1)
 summary(modeloR2)
 summary(modeloR3)
 
 #Modelos polinomiales
-modeloP1<-svm(clasificacion~., data=train,type="C-classification", gamma=1, kernel="polynomial", coef0=1, degree= 8) 
-modeloP2<-svm(clasificacion~., data=train,type="C-classification", gamma=5, kernel="polynomial", coef0=1)
-modeloP3<-svm(clasificacion~., data=train,type="C-classification", gamma=2^-5, kernel="polynomial", coef0=1)
+Rprof(memory.profiling = TRUE)
+modeloP1<-svm(clasificacion~., data=train,type="C-classification", gamma=2^5, kernel="polynomial", coef0=1, degree= 8) 
+Rprof(NULL)
+p1<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
+modeloP2<-svm(clasificacion~., data=train,type="C-classification", gamma=2^-5, kernel="polynomial", coef0=1)
+Rprof(NULL)
+p2<-summaryRprof(memory = "both")
+
+Rprof(memory.profiling = TRUE)
+modeloP3<-svm(clasificacion~., data=train,type="C-classification", gamma=0.5, kernel="polynomial", coef0=1)
+Rprof(NULL)
+p3<-summaryRprof(memory = "both")
 
 summary(modeloP1)
 summary(modeloP2)
@@ -108,10 +139,12 @@ summary(modeloP3)
 
 ```
 
-# 5 Predicciones
+## Pregunta 5. Predicciones
+
 ```{r, echo=FALSE}
 #Modelos lineales
 prediccionL1 <- predict(modeloL1, newdata = test)
+
 prediccionL2 <- predict(modeloL2, newdata = test)
 prediccionL3 <- predict(modeloL3, newdata = test)
 
@@ -126,10 +159,11 @@ prediccionP2 <- predict(modeloP2, newdata = test)
 prediccionP3 <- predict(modeloP3, newdata = test)
 ```
 
-# 6 Matrices de confusion
+## Pregunta 6. Matrices de confusion
+
 ```{r, echo=FALSE}
 #Modelos lineales
-confusionMatrix(test$clasificacion,prediccionL1)
+confusionMatrix(as.factor(test$clasificacion),as.factor(prediccionL1))
 confusionMatrix(test$clasificacion,prediccionL2)
 confusionMatrix(test$clasificacion,prediccionL3)
 
@@ -145,23 +179,68 @@ confusionMatrix(test$clasificacion,prediccionP3)
 ```
 
 # modelos tuneados
+
 ```{r, echo=FALSE}
 #Modelo lineal tuneado
-modeloLTuneado <-tune.svm(clasificacion~., data=train, cost=c(0.01,0.1,0.5,1,5,10,16,20,32), kernel="linear")
+#modeloLTuneado <-tune.svm(clasificacion~., data=train, cost=c(0.01,0.1,0.5,1,5,10,16,20,32), kernel="linear")
 
 #Modelo radial tuneado
-modeloRTuneado <-tune.svm(clasificacion~., data=train, gamma = c(0.01,0.1,0.5,1,2, 5,10,20,32), kernel="radial")
+#modeloRTuneado <-tune.svm(clasificacion~., data=train, gamma = c(0.01,0.1,0.5,1,2, 5,10,20,32), kernel="radial")
 ```
 
 # predicciones modelos tuneados
 
 ```{r, echo =FALSE}
-prediccionLTuneado <- predict(modeloLTuneado$best.model, newdata = test)
-prediccionRTuneado <- predict(modeloRTuneado$best.model, newdata = test)
+#prediccionLTuneado <- predict(modeloLTuneado$best.model, newdata = test)
+#prediccionRTuneado <- predict(modeloRTuneado$best.model, newdata = test)
 ``` 
 
 # Nuevas matrices de confusion
 ```{r, echo=FALSE}
-confusionMatrix(test$clasificacion,prediccionLTuneado)
-confusionMatrix(test$clasificacion,prediccionRTuneado)
+#confusionMatrix(test$clasificacion,prediccionLTuneado)
+#confusionMatrix(test$clasificacion,prediccionRTuneado)
 ```
+
+##Pregunta 7. Sobreajustados o desajustados
+
+Basandonos en las matrices de confusión de los modelos podemos decir que los modelos: """ estas sobreajustados debido a su Accuracy mientras que los modelos: """ estan desajustados de igual forma basandonos en su Accuracy. 
+
+##Pregunta 8. Compare los resultados obtenidos con los diferentes modelos que hizo en cuanto a efectividad, tiempo de procesamiento y equivocaciones.
+```{r}
+##Tiempo de procesamiento
+
+print("Tiempo de entrenamiento modelos lineales: ")
+l1$sampling.time
+l2$sampling.time
+l3$sampling.time
+
+print("Tiempo de entrenamiento modelos radiales: ")
+r1$sampling.time
+r2$sampling.time
+r3$sampling.time
+
+print("Tiempo de entrenamiento modelos polinomiales: ")
+p1$sampling.time
+p2$sampling.time
+p3$sampling.time
+```
+Se observa como los modelos polinomiales son los que menos promedio de tiempo de entrenamiento tienen, a este le siguen los modelos radiales y de ultimo quedan los modelos lineales. Con respecto a la eficacia se observa que el mejor modelo es"" debido a su promedio de accuracy. Al observar el error observamos que el mejor modelo fue "" con un error de "".
+
+##Pregunta 9. Comparación con otros modelos.
+
+Comparando los resultados de todas las hojas se puede observar que los modelos de árboles de decisión, regresión lineal, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
+
+
+##Pregunta 10. Genere un buen modelo de regresión
+
+```{r}
+
+```
+
+
+##Pregunta 11. . Compare los resultados del modelo de regresión generado con los de hojas anteriores que utilicen la misma variable, como la de regresión lineal. 
+
+
+
+
+
