@@ -80,6 +80,9 @@ summary(modelosvm)
 ```{r, echo=FALSE}
 #Modelos lineales
 Rprof(memory.profiling = TRUE)
+
+test$clasificacion<- as.factor(test$clasificacion)
+train$clasificacion<- as.factor(train$clasificacion)
 modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear")
 Rprof(NULL)
 l1<-summaryRprof(memory = "both")
@@ -138,14 +141,14 @@ p3<-summaryRprof(memory = "both")
 summary(modeloP1)
 summary(modeloP2)
 summary(modeloP3)
-
 ```
 
 ## Pregunta 5. Predicciones
 
 ```{r, echo=FALSE}
 #Modelos lineales
-prediccionL1 <- predict(modeloL1, newdata = test)
+test$clasificacion<- as.factor(test$clasificacion)
+prediccionL1 <- predict(modeloL1, newdata = test[,1:19])
 prediccionL2 <- predict(modeloL2, newdata = test)
 prediccionL3 <- predict(modeloL3, newdata = test)
 
@@ -158,20 +161,27 @@ prediccionR3 <- predict(modeloR1, newdata = test)
 prediccionP1 <- predict(modeloP1, newdata = test)
 prediccionP2 <- predict(modeloP2, newdata = test)
 prediccionP3 <- predict(modeloP3, newdata = test)
+test$clasificacion<- as.factor(test$clasificacion)
 ```
 
 ## Pregunta 6. Matrices de confusion
 
+
+
 ```{r, echo=FALSE}
 #Modelos lineales
-cmL1 <-confusionMatrix((test$clasificacion),(prediccionL1))
-cmL2 <-confusionMatrix(test$clasificacion,prediccionL2)
+cmL1<-confusionMatrix(test$clasificacion,prediccionL1)
+cmL2<-confusionMatrix(test$clasificacion,prediccionL2)
 cmL3 <-confusionMatrix(test$clasificacion,prediccionL3)
+cmL1
+cmL2
+cmL3
 
 #Modelos Radiales
 cmR1 <-confusionMatrix(test$clasificacion,prediccionR1)
 cmR2 <-confusionMatrix(test$clasificacion,prediccionR2)
 cmR3 <-confusionMatrix(test$clasificacion,prediccionR3)
+cmR1
 
 #Modelos polinomiales
 cmP1 <-confusionMatrix(test$clasificacion,prediccionP1)

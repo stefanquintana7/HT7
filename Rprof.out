@@ -1,4 +1,9 @@
 memory profiling: sample.interval=20000
-:3246141:9089980:226167928:985:"factor" "as.factor" "svm.default" "svm.formula" "svm" 
-:3246251:9137279:226186016:4:".C" "svm.default" "svm.formula" "svm" 
-:3265399:9384322:229350128:1274:"nzchar" "modifyList" "str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" "try" "...elt" "withVisible" "capture.output" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.withTimeLimit" ".rs.valueFromStr" ".rs.valueContentsImpl" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.valueContents" ".rs.describeObject" 
+:2964380:6497494:197723232:979:"eval" "match.arg" "order" "factor" "as.factor" "svm.default" "svm.formula" "svm" 
+:2964563:6546821:197754424:10:".C" "svm.default" "svm.formula" "svm" 
+:2964563:6546821:197754424:0:".C" "svm.default" "svm.formula" "svm" 
+:2965001:6779225:197857072:100:".C" "predict.svm" "predict" "na.action" "svm.default" "svm.formula" "svm" 
+:2965001:6779225:197857072:0:".C" "predict.svm" "predict" "na.action" "svm.default" "svm.formula" "svm" 
+:2980900:6793363:200464264:1022:"str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" "try" "...elt" "withVisible" "capture.output" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.withTimeLimit" ".rs.valueFromStr" ".rs.valueContentsImpl" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.valueContents" ".rs.describeObject" 
+:3017483:6802002:206083752:2097:"match.arg" "sink" "capture.output" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.withTimeLimit" ".rs.valueFromStr" ".rs.valueContentsImpl" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.valueContents" ".rs.describeObject" 
+:3017573:6802484:206105816:14:
