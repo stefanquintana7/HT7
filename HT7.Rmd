@@ -51,11 +51,10 @@ datosCasas$TotalBsmtSF<-NULL
 datosCasas$X2ndFlrSF<-NULL
 datosCasas$BsmtUnfSF<-NULL
 
-# Se agrega la cariable clasificatoria
+# Se agrega la variable clasificatoria
 datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
-datosCasas$SalePrice <- NULL
 
-y <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
+datosCasas$SalePrice <- NULL
 
 datosCasas[2] <- lapply(datosCasas[2], as.integer)
 
@@ -164,19 +163,19 @@ prediccionP3 <- predict(modeloP3, newdata = test)
 
 ```{r, echo=FALSE}
 #Modelos lineales
-cmL1 <-confusionMatrix((test$clasificacion),(prediccionL1))
-cmL2 <-confusionMatrix(test$clasificacion,prediccionL2)
-cmL3 <-confusionMatrix(test$clasificacion,prediccionL3)
+confusionMatrix((test$clasificacion),(prediccionL1))
+confusionMatrix(test$clasificacion,prediccionL2)
+confusionMatrix(test$clasificacion,prediccionL3)
 
 #Modelos Radiales
-cmR1 <-confusionMatrix(test$clasificacion,prediccionR1)
-cmR2 <-confusionMatrix(test$clasificacion,prediccionR2)
-cmR3 <-confusionMatrix(test$clasificacion,prediccionR3)
+confusionMatrix(test$clasificacion,prediccionR1)
+confusionMatrix(test$clasificacion,prediccionR2)
+confusionMatrix(test$clasificacion,prediccionR3)
 
 #Modelos polinomiales
-cmP1 <-confusionMatrix(test$clasificacion,prediccionP1)
-cmP2 <-confusionMatrix(test$clasificacion,prediccionP2)
-cmP3 <-confusionMatrix(test$clasificacion,prediccionP3)
+confusionMatrix(test$clasificacion,prediccionP1)
+confusionMatrix(test$clasificacion,prediccionP2)
+confusionMatrix(test$clasificacion,prediccionP3)
 ```
 
 
@@ -244,8 +243,14 @@ Comparando los resultados de todas las hojas se puede observar que los modelos d
 ##Pregunta 10. Genere un buen modelo de regresión
 
 ```{r, echo =FALSE}
-modelosvmtun<-svm(clasificacion~., data = train, scale = F)
-summary(modelosvmtun)
+modeloreg<-svm(as.factor(clasificacion)~., data=train, cost=c(0.01,0.5,1,1.5), gamma = c(0.01,1,1.5,11), coef0 = 0, kernel="sigmoid")
+summary(modeloreg)
+```
+
+
+```{r, echo =FALSE}
+pred<-predict(modeloreg,newdata = test)
+confusionMatrix(as.factor(test$clasificacion),as.factor(pred))
 ```
 
 
