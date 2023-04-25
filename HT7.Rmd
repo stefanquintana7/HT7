@@ -51,11 +51,10 @@ datosCasas$TotalBsmtSF<-NULL
 datosCasas$X2ndFlrSF<-NULL
 datosCasas$BsmtUnfSF<-NULL
 
-# Se agrega la cariable clasificatoria
+# Se agrega la variable clasificatoria
 datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
-datosCasas$SalePrice <- NULL
 
-y <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
+datosCasas$SalePrice <- NULL
 
 datosCasas[2] <- lapply(datosCasas[2], as.integer)
 
@@ -67,6 +66,10 @@ corte <- sample(nrow(datos),nrow(datos)*porcentaje)
 train<-datosCasas[corte,]
 test<-datosCasas[-corte,]
 ```
+
+Para un mejor análisis, se removieron las variables cualitativas. Se investigó y las variables cualitativas no aportan información para los modelos SVM, por lo que no es recomendable dejarlas en el para el modelo de entrenamiento.
+Posteriormente se realizó una prueba de normalidad, donde ninguna variable mostró una tendencia normal. Esto significa que todas las variables cuantitativas aportan al modelo.
+
 
 ## Pregunta 3. Modelo con variable respuesta clasificacion
 
@@ -183,10 +186,19 @@ cmR2 <-confusionMatrix(test$clasificacion,prediccionR2)
 cmR3 <-confusionMatrix(test$clasificacion,prediccionR3)
 cmR1
 
+confusionMatrix((test$clasificacion),(prediccionL1))
+confusionMatrix(test$clasificacion,prediccionL2)
+confusionMatrix(test$clasificacion,prediccionL3)
+
+#Modelos Radiales
+confusionMatrix(test$clasificacion,prediccionR1)
+confusionMatrix(test$clasificacion,prediccionR2)
+confusionMatrix(test$clasificacion,prediccionR3)
+
 #Modelos polinomiales
-cmP1 <-confusionMatrix(test$clasificacion,prediccionP1)
-cmP2 <-confusionMatrix(test$clasificacion,prediccionP2)
-cmP3 <-confusionMatrix(test$clasificacion,prediccionP3)
+confusionMatrix(test$clasificacion,prediccionP1)
+confusionMatrix(test$clasificacion,prediccionP2)
+confusionMatrix(test$clasificacion,prediccionP3)
 ```
 
 
@@ -215,7 +227,7 @@ cmP3 <-confusionMatrix(test$clasificacion,prediccionP3)
 
 ##Pregunta 7. Sobreajustados o desajustados
 
-Basandonos en las matrices de confusión de los modelos podemos decir que los modelos: """ estas sobreajustados debido a su Accuracy mientras que los modelos: """ estan desajustados de igual forma basandonos en su Accuracy. 
+Basandonos en las matrices de confusión de los modelos podemos decir que los modelos no estas sobreajustados debido a que el porcentaje de casi todos pasa el 80% lo que indica que es un buen modelo.  
 
 ##Pregunta 8. Compare los resultados obtenidos con los diferentes modelos que hizo en cuanto a efectividad, tiempo de procesamiento y equivocaciones.
 ```{r}
@@ -248,20 +260,26 @@ Se observa como los modelos polinomiales son los que menos promedio de tiempo de
 
 ##Pregunta 9. Comparación con otros modelos.
 
-Comparando los resultados de todas las hojas se puede observar que los modelos de árboles de decisión, regresión lineal, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
+Comparando los resultados de todas las hojas se puede observar que los modelos de  random forest, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
 
 
 ##Pregunta 10. Genere un buen modelo de regresión
 
 ```{r, echo =FALSE}
-modelosvmtun<-svm(clasificacion~., data = train, scale = F)
-summary(modelosvmtun)
+modeloreg<-svm(as.factor(clasificacion)~., data=train, cost=c(0.01,0.5,1,1.5), gamma = c(0.01,1,1.5,11), coef0 = 0, kernel="sigmoid")
+summary(modeloreg)
+```
+
+
+```{r, echo =FALSE}
+pred<-predict(modeloreg,newdata = test)
+confusionMatrix(as.factor(test$clasificacion),as.factor(pred))
 ```
 
 
 ##Pregunta 11. . Compare los resultados del modelo de regresión generado con los de hojas anteriores que utilicen la misma variable, como la de regresión lineal. 
 
-
+Comparando los resultados de todas las hojas se puede observar que los modelos de árboles de decisión, regresión lineal y svm presentan resultados muy cercanos con valor aproximado de 85% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Árboles de decisión. 
 
 
 
