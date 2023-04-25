@@ -55,6 +55,8 @@ datosCasas$BsmtUnfSF<-NULL
 datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
 datosCasas$SalePrice <- NULL
 
+y <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
+
 datosCasas[2] <- lapply(datosCasas[2], as.integer)
 
 porcentaje<-0.7
@@ -144,7 +146,6 @@ summary(modeloP3)
 ```{r, echo=FALSE}
 #Modelos lineales
 prediccionL1 <- predict(modeloL1, newdata = test)
-
 prediccionL2 <- predict(modeloL2, newdata = test)
 prediccionL3 <- predict(modeloL3, newdata = test)
 
@@ -163,20 +164,21 @@ prediccionP3 <- predict(modeloP3, newdata = test)
 
 ```{r, echo=FALSE}
 #Modelos lineales
-confusionMatrix(as.factor(test$clasificacion),as.factor(prediccionL1))
-confusionMatrix(test$clasificacion,prediccionL2)
-confusionMatrix(test$clasificacion,prediccionL3)
+cmL1 <-confusionMatrix((test$clasificacion),(prediccionL1))
+cmL2 <-confusionMatrix(test$clasificacion,prediccionL2)
+cmL3 <-confusionMatrix(test$clasificacion,prediccionL3)
 
 #Modelos Radiales
-confusionMatrix(test$clasificacion,prediccionR1)
-confusionMatrix(test$clasificacion,prediccionR2)
-confusionMatrix(test$clasificacion,prediccionR3)
+cmR1 <-confusionMatrix(test$clasificacion,prediccionR1)
+cmR2 <-confusionMatrix(test$clasificacion,prediccionR2)
+cmR3 <-confusionMatrix(test$clasificacion,prediccionR3)
 
 #Modelos polinomiales
-confusionMatrix(test$clasificacion,prediccionP1)
-confusionMatrix(test$clasificacion,prediccionP2)
-confusionMatrix(test$clasificacion,prediccionP3)
+cmP1 <-confusionMatrix(test$clasificacion,prediccionP1)
+cmP2 <-confusionMatrix(test$clasificacion,prediccionP2)
+cmP3 <-confusionMatrix(test$clasificacion,prediccionP3)
 ```
+
 
 # modelos tuneados
 
@@ -223,6 +225,14 @@ print("Tiempo de entrenamiento modelos polinomiales: ")
 p1$sampling.time
 p2$sampling.time
 p3$sampling.time
+
+print("Tiempo promedio de entrenamiento modelos lineales: ")
+(l1$sampling.time+l2$sampling.time+l3$sampling.time)/3
+print("Tiempo promedio de entrenamiento modelos radiales: ")
+(r1$sampling.time+r2$sampling.time+r3$sampling.time)/3
+print("Tiempo promedio de entrenamiento modelos polinomiales: ")
+(p1$sampling.time+p2$sampling.time+p3$sampling.time)/3
+
 ```
 Se observa como los modelos polinomiales son los que menos promedio de tiempo de entrenamiento tienen, a este le siguen los modelos radiales y de ultimo quedan los modelos lineales. Con respecto a la eficacia se observa que el mejor modelo es"" debido a su promedio de accuracy. Al observar el error observamos que el mejor modelo fue "" con un error de "".
 
@@ -233,8 +243,9 @@ Comparando los resultados de todas las hojas se puede observar que los modelos d
 
 ##Pregunta 10. Genere un buen modelo de regresión
 
-```{r}
-
+```{r, echo =FALSE}
+modelosvmtun<-svm(clasificacion~., data = train, scale = F)
+summary(modelosvmtun)
 ```
 
 
