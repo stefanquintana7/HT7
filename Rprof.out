@@ -1,4 +1,4 @@
 memory profiling: sample.interval=20000
-:2896401:4590242:184712192:0:"tryCatchOne" "tryCatchList" "tryCatch" "withCallingHandlers" ".rs.callAs" "Rprof" 
-:2904417:5283832:186247936:989:".C" "svm.default" "svm.formula" "svm" 
-:2904855:5516236:186350584:100:".C" "predict.svm" "predict" "na.action" "svm.default" "svm.formula" "svm" 
+:3278919:9168228:245789208:741:"sys.call" "%in%" "[[.data.frame" "[[" "[.data.frame" "[" "na.omit.data.frame" "na.action" "svm.default" "svm.formula" "svm" 
+:3281428:9602724:246298976:248:".C" "svm.default" "svm.formula" "svm" 
+:3307198:9851440:250515720:1664:"strsplit" "prettyNum" "format.default" "format" "format.fun" "paste" "nchar.w" "maybe_truncate" "formObj" "cat" "str.default" "str" "<Anonymous>" "do.call" "strSub" "str.default" "str" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" "try" "...elt" "withVisible" "capture.output" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.withTimeLimit" ".rs.valueFromStr" ".rs.valueContentsImpl" "doTryCatch" "tryCatchOne" "tryCatchList" "tryCatch" ".rs.valueContents" ".rs.describeObject" 
