@@ -503,6 +503,12 @@ base de datos</h2>
 ## PoolArea       0.051307395  1.000000000  0.0296686509  0.09240355
 ## MiscVal        0.031945761  0.029668651  1.0000000000 -0.02118958
 ## SalePrice      0.111446571  0.092403549 -0.0211895796  1.00000000</code></pre>
+<p>Para un mejor análisis, se removieron las variables cualitativas. Se
+investigó y las variables cualitativas no aportan información para los
+modelos SVM, por lo que no es recomendable dejarlas en el para el modelo
+de entrenamiento. Posteriormente se realizó una prueba de normalidad,
+donde ninguna variable mostró una tendencia normal. Esto significa que
+todas las variables cuantitativas aportan al modelo.</p>
 </div>
 <div id="pregunta-3.-modelo-con-variable-respuesta-clasificacion" class="section level2">
 <h2>Pregunta 3. Modelo con variable respuesta clasificacion</h2>
@@ -530,84 +536,114 @@ kernels</h2>
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  linear 
 ##        cost:  32 
-##       gamma:  0.05263158 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  414
+## 
+##  ( 77 136 201 )
 ## 
 ## 
-## Number of Support Vectors:  852</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, cost = 2^-5, kernel = &quot;linear&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  linear 
 ##        cost:  0.03125 
-##       gamma:  0.05263158 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  533
+## 
+##  ( 115 180 238 )
 ## 
 ## 
-## Number of Support Vectors:  846</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, cost = 0.5, kernel = &quot;linear&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  linear 
 ##        cost:  0.5 
-##       gamma:  0.05263158 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  440
+## 
+##  ( 84 145 211 )
 ## 
 ## 
-## Number of Support Vectors:  852</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, gamma = 2^5, kernel = &quot;radial&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
-##       gamma:  32 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  1014
+## 
+##  ( 250 518 246 )
 ## 
 ## 
-## Number of Support Vectors:  1014</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, gamma = 2^-5, kernel = &quot;radial&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
-##       gamma:  0.03125 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  539
+## 
+##  ( 123 186 230 )
 ## 
 ## 
-## Number of Support Vectors:  753</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, gamma = 0.5, kernel = &quot;radial&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
-##       gamma:  0.5 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  912
+## 
+##  ( 241 444 227 )
 ## 
 ## 
-## Number of Support Vectors:  918</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 <pre><code>## 
 ## Call:
 ## svm(formula = clasificacion ~ ., data = train, type = &quot;C-classification&quot;, 
@@ -681,14 +717,44 @@ kernels</h2>
 <div id="pregunta-6.-matrices-de-confusion" class="section level2">
 <h2>Pregunta 6. Matrices de confusion</h2>
 <pre><code>##      [,1] [,2]
-## [1,]    0    8
-## [2,]    0  101</code></pre>
+## [1,]    0    0
+## [2,]    0  109</code></pre>
 <pre><code>##      [,1] [,2]
-## [1,]    0    8
-## [2,]    0  101</code></pre>
+## [1,]    0    0
+## [2,]    0  109</code></pre>
 <pre><code>##      [,1] [,2]
-## [1,]    0    8
-## [2,]    0  101</code></pre>
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
 </div>
 </div>
 <div id="modelos-tuneados" class="section level1">
@@ -701,9 +767,8 @@ kernels</h2>
 <h1>Nuevas matrices de confusion</h1>
 <p>##Pregunta 7. Sobreajustados o desajustados</p>
 <p>Basandonos en las matrices de confusión de los modelos podemos decir
-que los modelos: ““” estas sobreajustados debido a su Accuracy mientras
-que los modelos: ““” estan desajustados de igual forma basandonos en su
-Accuracy.</p>
+que los modelos no estas sobreajustados debido a que el porcentaje de
+casi todos pasa el 80% lo que indica que es un buen modelo.</p>
 <p>##Pregunta 8. Compare los resultados obtenidos con los diferentes
 modelos que hizo en cuanto a efectividad, tiempo de procesamiento y
 equivocaciones.</p>
@@ -712,39 +777,39 @@ equivocaciones.</p>
 print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos lineales: &quot;</code></pre>
 <pre class="r"><code>l1$sampling.time</code></pre>
-<pre><code>## [1] 1.8</code></pre>
+<pre><code>## [1] 0.24</code></pre>
 <pre class="r"><code>l2$sampling.time</code></pre>
-<pre><code>## [1] 0.08</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>l3$sampling.time</code></pre>
-<pre><code>## [1] 0.12</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>print(&quot;Tiempo de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>r1$sampling.time</code></pre>
-<pre><code>## [1] 0.16</code></pre>
+<pre><code>## [1] 0.18</code></pre>
 <pre class="r"><code>r2$sampling.time</code></pre>
-<pre><code>## [1] 0.14</code></pre>
+<pre><code>## [1] 0.12</code></pre>
 <pre class="r"><code>r3$sampling.time</code></pre>
-<pre><code>## [1] 0.16</code></pre>
+<pre><code>## [1] 0.2</code></pre>
 <pre class="r"><code>print(&quot;Tiempo de entrenamiento modelos polinomiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos polinomiales: &quot;</code></pre>
 <pre class="r"><code>p1$sampling.time</code></pre>
-<pre><code>## [1] 0.06</code></pre>
+<pre><code>## [1] 0.1</code></pre>
 <pre class="r"><code>p2$sampling.time</code></pre>
-<pre><code>## [1] 0.06</code></pre>
+<pre><code>## [1] 0.08</code></pre>
 <pre class="r"><code>p3$sampling.time</code></pre>
-<pre><code>## [1] 0.06</code></pre>
+<pre><code>## [1] 0.08</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos lineales: &quot;</code></pre>
 <pre class="r"><code>(l1$sampling.time+l2$sampling.time+l3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.6666667</code></pre>
+<pre><code>## [1] 0.12</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>(r1$sampling.time+r2$sampling.time+r3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.1533333</code></pre>
+<pre><code>## [1] 0.1666667</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos polinomiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos polinomiales: &quot;</code></pre>
 <pre class="r"><code>(p1$sampling.time+p2$sampling.time+p3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.06</code></pre>
+<pre><code>## [1] 0.08666667</code></pre>
 <p>Se observa como los modelos polinomiales son los que menos promedio
 de tiempo de entrenamiento tienen, a este le siguen los modelos radiales
 y de ultimo quedan los modelos lineales. Con respecto a la eficacia se
@@ -753,28 +818,43 @@ observar el error observamos que el mejor modelo fue “” con un error de
 ““.</p>
 <p>##Pregunta 9. Comparación con otros modelos.</p>
 <p>Comparando los resultados de todas las hojas se puede observar que
-los modelos de árboles de decisión, regresión lineal, Naive Bayes y svm
-presentan resultados muy cercanos con valor aproximado promedio de 90%
-de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de
-Naive Bayes, siendo el primer lugar con un 94.76%</p>
+los modelos de random forest, Naive Bayes y svm presentan resultados muy
+cercanos con valor aproximado promedio de 90% de precisión. Sin embargo
+el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el
+primer lugar con un 94.76%</p>
 <p>##Pregunta 10. Genere un buen modelo de regresión</p>
 <pre><code>## 
 ## Call:
-## svm(formula = clasificacion ~ ., data = train, scale = F)
+## svm(formula = as.factor(clasificacion) ~ ., data = train, cost = c(0.01, 
+##     0.5, 1, 1.5), gamma = c(0.01, 1, 1.5, 11), coef0 = 0, kernel = &quot;sigmoid&quot;)
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
-##  SVM-Kernel:  radial 
-##        cost:  1 
-##       gamma:  0.05263158 
-##     epsilon:  0.1 
+##    SVM-Type:  C-classification 
+##  SVM-Kernel:  sigmoid 
+##        cost:  0.01 0.5 1 1.5 
+##      coef.0:  0 
+## 
+## Number of Support Vectors:  770
+## 
+##  ( 250 274 246 )
 ## 
 ## 
-## Number of Support Vectors:  1014</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]    0    0
+## [2,]    0  109</code></pre>
 <p>##Pregunta 11. . Compare los resultados del modelo de regresión
 generado con los de hojas anteriores que utilicen la misma variable,
 como la de regresión lineal.</p>
+<p>Comparando los resultados de todas las hojas se puede observar que
+los modelos de árboles de decisión, regresión lineal y svm presentan
+resultados muy cercanos con valor aproximado de 85% de precisión. Sin
+embargo el modelo que tuvo un mayor accuracy es el de Árboles de
+decisión.</p>
 </div>
 
 
