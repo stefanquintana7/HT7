@@ -241,7 +241,7 @@ Se observa como los modelos polinomiales son los que menos promedio de tiempo de
 
 ##Pregunta 9. Comparación con otros modelos.
 
-Comparando los resultados de todas las hojas se puede observar que los modelos de  random forest, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
+Comparando los resultados de todas las hojas se puede observar que los modelos de random forest, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
 
 
 ##Pregunta 10. Genere un buen modelo de regresión
