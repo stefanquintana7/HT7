@@ -87,9 +87,6 @@ summary(modelosvm)
 ```{r, echo=FALSE}
 #Modelos lineales
 Rprof(memory.profiling = TRUE)
-
-#test$clasificacion<- as.factor(test$clasificacion)
-#train$clasificacion<- as.factor(train$clasificacion)
 modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear")
 Rprof(NULL)
 l1<-summaryRprof(memory = "both")
