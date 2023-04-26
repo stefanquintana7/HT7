@@ -518,14 +518,19 @@ todas las variables cuantitativas aportan al modelo.</p>
 ## 
 ## 
 ## Parameters:
-##    SVM-Type:  eps-regression 
+##    SVM-Type:  C-classification 
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
-##       gamma:  0.05263158 
-##     epsilon:  0.1 
+## 
+## Number of Support Vectors:  1014
+## 
+##  ( 250 518 246 )
 ## 
 ## 
-## Number of Support Vectors:  1014</code></pre>
+## Number of Classes:  3 
+## 
+## Levels: 
+##  1 2 3</code></pre>
 </div>
 <div id="pregunta-4.-generar-varios-modelos-cambiando-valores-de-gamma-y-kernels" class="section level2">
 <h2>Pregunta 4. generar varios modelos cambiando valores de gamma y
@@ -540,9 +545,9 @@ kernels</h2>
 ##  SVM-Kernel:  linear 
 ##        cost:  32 
 ## 
-## Number of Support Vectors:  414
+## Number of Support Vectors:  79
 ## 
-##  ( 77 136 201 )
+##  ( 17 25 37 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -559,9 +564,9 @@ kernels</h2>
 ##  SVM-Kernel:  linear 
 ##        cost:  0.03125 
 ## 
-## Number of Support Vectors:  533
+## Number of Support Vectors:  482
 ## 
-##  ( 115 180 238 )
+##  ( 97 157 228 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -578,9 +583,9 @@ kernels</h2>
 ##  SVM-Kernel:  linear 
 ##        cost:  0.5 
 ## 
-## Number of Support Vectors:  440
+## Number of Support Vectors:  248
 ## 
-##  ( 84 145 211 )
+##  ( 47 77 124 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -616,9 +621,9 @@ kernels</h2>
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
 ## 
-## Number of Support Vectors:  539
+## Number of Support Vectors:  485
 ## 
-##  ( 123 186 230 )
+##  ( 109 163 213 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -635,9 +640,9 @@ kernels</h2>
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
 ## 
-## Number of Support Vectors:  912
+## Number of Support Vectors:  907
 ## 
-##  ( 241 444 227 )
+##  ( 243 441 223 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -657,9 +662,9 @@ kernels</h2>
 ##      degree:  8 
 ##      coef.0:  1 
 ## 
-## Number of Support Vectors:  523
+## Number of Support Vectors:  512
 ## 
-##  ( 110 208 205 )
+##  ( 93 214 205 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -679,9 +684,9 @@ kernels</h2>
 ##      degree:  3 
 ##      coef.0:  1 
 ## 
-## Number of Support Vectors:  473
+## Number of Support Vectors:  385
 ## 
-##  ( 100 153 220 )
+##  ( 75 122 188 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -701,9 +706,9 @@ kernels</h2>
 ##      degree:  3 
 ##      coef.0:  1 
 ## 
-## Number of Support Vectors:  401
+## Number of Support Vectors:  332
 ## 
-##  ( 86 158 157 )
+##  ( 60 133 139 )
 ## 
 ## 
 ## Number of Classes:  3 
@@ -777,23 +782,23 @@ equivocaciones.</p>
 print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos lineales: &quot;</code></pre>
 <pre class="r"><code>l1$sampling.time</code></pre>
-<pre><code>## [1] 0.18</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>l2$sampling.time</code></pre>
-<pre><code>## [1] 0.04</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>l3$sampling.time</code></pre>
 <pre><code>## [1] 0.04</code></pre>
 <pre class="r"><code>print(&quot;Tiempo de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>r1$sampling.time</code></pre>
-<pre><code>## [1] 0.16</code></pre>
+<pre><code>## [1] 0.18</code></pre>
 <pre class="r"><code>r2$sampling.time</code></pre>
 <pre><code>## [1] 0.1</code></pre>
 <pre class="r"><code>r3$sampling.time</code></pre>
-<pre><code>## [1] 0.16</code></pre>
+<pre><code>## [1] 0.18</code></pre>
 <pre class="r"><code>print(&quot;Tiempo de entrenamiento modelos polinomiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos polinomiales: &quot;</code></pre>
 <pre class="r"><code>p1$sampling.time</code></pre>
-<pre><code>## [1] 0.08</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>p2$sampling.time</code></pre>
 <pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>p3$sampling.time</code></pre>
@@ -801,15 +806,15 @@ print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos lineales: &quot;</code></pre>
 <pre class="r"><code>(l1$sampling.time+l2$sampling.time+l3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.08666667</code></pre>
+<pre><code>## [1] 0.05333333</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>(r1$sampling.time+r2$sampling.time+r3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.14</code></pre>
+<pre><code>## [1] 0.1533333</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos polinomiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos polinomiales: &quot;</code></pre>
 <pre class="r"><code>(p1$sampling.time+p2$sampling.time+p3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.06666667</code></pre>
+<pre><code>## [1] 0.06</code></pre>
 <p>Se observa como los modelos polinomiales son los que menos promedio
 de tiempo de entrenamiento tienen, a este le siguen los modelos radiales
 y de ultimo quedan los modelos lineales. Con respecto a la eficacia se
@@ -835,9 +840,9 @@ primer lugar con un 94.76%</p>
 ##        cost:  0.01 0.5 1 1.5 
 ##      coef.0:  0 
 ## 
-## Number of Support Vectors:  770
+## Number of Support Vectors:  765
 ## 
-##  ( 250 274 246 )
+##  ( 250 269 246 )
 ## 
 ## 
 ## Number of Classes:  3 

@@ -53,8 +53,8 @@ datosCasas$BsmtUnfSF<-NULL
 
 # Se agrega la variable clasificatoria
 datosCasas$clasificacion <- ifelse(datosCasas$SalePrice > 214000, 1, ifelse(datosCasas$SalePrice>163000, 2, 3))
-
-datosCasas$SalePrice <- NULL
+datosCasas$clasificacion<- as.factor(datosCasas$clasificacion)
+#datosCasas$SalePrice <- NULL
 
 datosCasas[2] <- lapply(datosCasas[2], as.integer)
 
@@ -65,6 +65,10 @@ set.seed(123)
 corte <- sample(nrow(datos),nrow(datos)*porcentaje)
 train<-datosCasas[corte,]
 test<-datosCasas[-corte,]
+
+#test$clasificacion<- as.factor(test$clasificacion)
+#train$clasificacion<- as.factor(train$clasificacion)
+
 ```
 
 Para un mejor análisis, se removieron las variables cualitativas. Se investigó y las variables cualitativas no aportan información para los modelos SVM, por lo que no es recomendable dejarlas en el para el modelo de entrenamiento.
@@ -84,8 +88,8 @@ summary(modelosvm)
 #Modelos lineales
 Rprof(memory.profiling = TRUE)
 
-test$clasificacion<- as.factor(test$clasificacion)
-train$clasificacion<- as.factor(train$clasificacion)
+#test$clasificacion<- as.factor(test$clasificacion)
+#train$clasificacion<- as.factor(train$clasificacion)
 modeloL1<-svm(clasificacion~., data=train, cost=2^5, kernel="linear")
 Rprof(NULL)
 l1<-summaryRprof(memory = "both")
@@ -151,7 +155,7 @@ summary(modeloP3)
 ```{r, echo=FALSE}
 #Modelos lineales
 test$clasificacion<- as.factor(test$clasificacion)
-prediccionL1 <- predict(modeloL1, newdata = test[,1:19])
+prediccionL1 <- predict(modeloL1, newdata = test)
 prediccionL2 <- predict(modeloL2, newdata = test)
 prediccionL3 <- predict(modeloL3, newdata = test)
 
