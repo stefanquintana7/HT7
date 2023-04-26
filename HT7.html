@@ -376,6 +376,17 @@ base de datos</h2>
 <pre><code>## dummy 0.1.3</code></pre>
 <pre><code>## dummyNews()</code></pre>
 <pre><code>## 
+## Attaching package: &#39;plotly&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     last_plot</code></pre>
+<pre><code>## The following object is masked from &#39;package:stats&#39;:
+## 
+##     filter</code></pre>
+<pre><code>## The following object is masked from &#39;package:graphics&#39;:
+## 
+##     layout</code></pre>
+<pre><code>## 
 ## Attaching package: &#39;ModelMetrics&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:caret&#39;:
 ## 
@@ -718,6 +729,21 @@ kernels</h2>
 </div>
 <div id="pregunta-5.-predicciones" class="section level2">
 <h2>Pregunta 5. Predicciones</h2>
+<pre class="r"><code>#Modelos lineales
+test$clasificacion&lt;- as.factor(test$clasificacion)
+prediccionL1 &lt;- predict(modeloL1, newdata = test)
+prediccionL2 &lt;- predict(modeloL2, newdata = test)
+prediccionL3 &lt;- predict(modeloL3, newdata = test)
+
+#Modelos radiales
+prediccionR1 &lt;- predict(modeloR1, newdata = test)
+prediccionR2 &lt;- predict(modeloR1, newdata = test)
+prediccionR3 &lt;- predict(modeloR1, newdata = test)
+
+#Modelos polinomiales
+prediccionP1 &lt;- predict(modeloP1, newdata = test)
+prediccionP2 &lt;- predict(modeloP2, newdata = test)
+prediccionP3 &lt;- predict(modeloP3, newdata = test)</code></pre>
 </div>
 <div id="pregunta-6.-matrices-de-confusion" class="section level2">
 <h2>Pregunta 6. Matrices de confusion</h2>
@@ -748,18 +774,18 @@ kernels</h2>
 <pre><code>##      [,1] [,2]
 ## [1,]    0    0
 ## [2,]    0  109</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,]    0    0
-## [2,]    0  109</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,]    0    0
-## [2,]    0  109</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,]    0    0
-## [2,]    0  109</code></pre>
-<pre><code>##      [,1] [,2]
-## [1,]    0    0
-## [2,]    0  109</code></pre>
+<p>Segun las predicciones obtenidos, procedemos a comparar los modelso
+SVm. Para los modelos lineales podemos observar que el tercer modelo
+lineal con cost=2^-5 tiene una mayor precision, luego le sigue el
+segundo modelo propuesto respecto a la presición, y el menos preciso de
+estos 3 modelos fue el primero. Entre mayor es el valor de este
+parametro, menos precisión tiene. Análogamente podemos observar el mismo
+resultado para los modelos polinomiales, el primero resulto menos
+preciso que el segundo y tercero. En cambio para los modelos radiales
+podemos observar que si, el tercero tuvo mayor presición, pero en este
+caso el primer modelo obtuvo mayor presición que el segundo, mas no que
+el tercero. Tambien respecto a modelos visto con anterioridad, el modelo
+SVM es el que en general mayor presición ha mostrado.</p>
 </div>
 </div>
 <div id="modelos-tuneados" class="section level1">
@@ -770,13 +796,16 @@ kernels</h2>
 </div>
 <div id="nuevas-matrices-de-confusion" class="section level1">
 <h1>Nuevas matrices de confusion</h1>
-<p>##Pregunta 7. Sobreajustados o desajustados</p>
+<div id="pregunta-7.-sobreajustados-o-desajustados" class="section level2">
+<h2>Pregunta 7. Sobreajustados o desajustados</h2>
 <p>Basandonos en las matrices de confusión de los modelos podemos decir
 que los modelos no estas sobreajustados debido a que el porcentaje de
 casi todos pasa el 80% lo que indica que es un buen modelo.</p>
-<p>##Pregunta 8. Compare los resultados obtenidos con los diferentes
+</div>
+<div id="pregunta-8.-compare-los-resultados-obtenidos-con-los-diferentes-modelos-que-hizo-en-cuanto-a-efectividad-tiempo-de-procesamiento-y-equivocaciones." class="section level2">
+<h2>Pregunta 8. Compare los resultados obtenidos con los diferentes
 modelos que hizo en cuanto a efectividad, tiempo de procesamiento y
-equivocaciones.</p>
+equivocaciones.</h2>
 <pre class="r"><code>##Tiempo de procesamiento
 
 print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
@@ -786,7 +815,7 @@ print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre class="r"><code>l2$sampling.time</code></pre>
 <pre><code>## [1] 0.06</code></pre>
 <pre class="r"><code>l3$sampling.time</code></pre>
-<pre><code>## [1] 0.04</code></pre>
+<pre><code>## [1] 0.08</code></pre>
 <pre class="r"><code>print(&quot;Tiempo de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>r1$sampling.time</code></pre>
@@ -806,7 +835,7 @@ print(&quot;Tiempo de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos lineales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos lineales: &quot;</code></pre>
 <pre class="r"><code>(l1$sampling.time+l2$sampling.time+l3$sampling.time)/3</code></pre>
-<pre><code>## [1] 0.05333333</code></pre>
+<pre><code>## [1] 0.06666667</code></pre>
 <pre class="r"><code>print(&quot;Tiempo promedio de entrenamiento modelos radiales: &quot;)</code></pre>
 <pre><code>## [1] &quot;Tiempo promedio de entrenamiento modelos radiales: &quot;</code></pre>
 <pre class="r"><code>(r1$sampling.time+r2$sampling.time+r3$sampling.time)/3</code></pre>
@@ -821,13 +850,17 @@ y de ultimo quedan los modelos lineales. Con respecto a la eficacia se
 observa que el mejor modelo es”” debido a su promedio de accuracy. Al
 observar el error observamos que el mejor modelo fue “” con un error de
 ““.</p>
-<p>##Pregunta 9. Comparación con otros modelos.</p>
+</div>
+<div id="pregunta-9.-comparación-con-otros-modelos." class="section level2">
+<h2>Pregunta 9. Comparación con otros modelos.</h2>
 <p>Comparando los resultados de todas las hojas se puede observar que
 los modelos de random forest, Naive Bayes y svm presentan resultados muy
 cercanos con valor aproximado promedio de 90% de precisión. Sin embargo
 el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el
 primer lugar con un 94.76%</p>
-<p>##Pregunta 10. Genere un buen modelo de regresión</p>
+</div>
+<div id="pregunta-10.-genere-un-buen-modelo-de-regresión" class="section level2">
+<h2>Pregunta 10. Genere un buen modelo de regresión</h2>
 <pre><code>## 
 ## Call:
 ## svm(formula = as.factor(clasificacion) ~ ., data = train, cost = c(0.01, 
@@ -852,14 +885,17 @@ primer lugar con un 94.76%</p>
 <pre><code>##      [,1] [,2]
 ## [1,]    0    0
 ## [2,]    0  109</code></pre>
-<p>##Pregunta 11. . Compare los resultados del modelo de regresión
+</div>
+<div id="pregunta-11.-.-compare-los-resultados-del-modelo-de-regresión-generado-con-los-de-hojas-anteriores-que-utilicen-la-misma-variable-como-la-de-regresión-lineal." class="section level2">
+<h2>Pregunta 11. . Compare los resultados del modelo de regresión
 generado con los de hojas anteriores que utilicen la misma variable,
-como la de regresión lineal.</p>
+como la de regresión lineal.</h2>
 <p>Comparando los resultados de todas las hojas se puede observar que
 los modelos de árboles de decisión, regresión lineal y svm presentan
 resultados muy cercanos con valor aproximado de 85% de precisión. Sin
 embargo el modelo que tuvo un mayor accuracy es el de Árboles de
 decisión.</p>
+</div>
 </div>
 
 

@@ -18,6 +18,7 @@ library(ggplot2)
 library(tidyr)
 library(e1071)
 library(dummy)
+library(plotly)
 library(ModelMetrics)
 
 #Se cargan los datos
@@ -149,7 +150,7 @@ summary(modeloP3)
 
 ## Pregunta 5. Predicciones
 
-```{r, echo=FALSE}
+```{r, echo=TRUE}
 #Modelos lineales
 test$clasificacion<- as.factor(test$clasificacion)
 prediccionL1 <- predict(modeloL1, newdata = test)
@@ -165,7 +166,6 @@ prediccionR3 <- predict(modeloR1, newdata = test)
 prediccionP1 <- predict(modeloP1, newdata = test)
 prediccionP2 <- predict(modeloP2, newdata = test)
 prediccionP3 <- predict(modeloP3, newdata = test)
-test$clasificacion<- as.factor(test$clasificacion)
 ```
 
 ## Pregunta 6. Matrices de confusion
@@ -186,21 +186,20 @@ cmR1 <-confusionMatrix(test$clasificacion,prediccionR1)
 cmR2 <-confusionMatrix(test$clasificacion,prediccionR2)
 cmR3 <-confusionMatrix(test$clasificacion,prediccionR3)
 cmR1
+cmR2
+cmR3
 
-confusionMatrix((test$clasificacion),(prediccionL1))
-confusionMatrix(test$clasificacion,prediccionL2)
-confusionMatrix(test$clasificacion,prediccionL3)
 
-#Modelos Radiales
-confusionMatrix(test$clasificacion,prediccionR1)
-confusionMatrix(test$clasificacion,prediccionR2)
-confusionMatrix(test$clasificacion,prediccionR3)
 
 #Modelos polinomiales
 confusionMatrix(test$clasificacion,prediccionP1)
 confusionMatrix(test$clasificacion,prediccionP2)
 confusionMatrix(test$clasificacion,prediccionP3)
 ```
+
+Segun las predicciones obtenidos, procedemos a comparar los modelso SVm. Para los modelos lineales podemos observar que el tercer modelo lineal con cost=2^-5 tiene una mayor precision, luego le sigue el segundo modelo propuesto respecto a la presición, y el menos preciso de estos 3 modelos fue el primero. Entre mayor es el valor de este parametro, menos precisión tiene. 
+Análogamente podemos observar el mismo resultado para los modelos polinomiales, el primero resulto menos preciso que el segundo y tercero. En cambio para los modelos radiales podemos observar que si, el tercero tuvo mayor presición, pero en este caso el primer modelo obtuvo mayor presición que el segundo, mas no que el tercero.
+Tambien respecto a modelos visto con anterioridad, el modelo SVM es el que en general mayor presición ha mostrado.
 
 
 # modelos tuneados
@@ -226,11 +225,11 @@ confusionMatrix(test$clasificacion,prediccionP3)
 #confusionMatrix(test$clasificacion,prediccionRTuneado)
 ```
 
-##Pregunta 7. Sobreajustados o desajustados
+## Pregunta 7. Sobreajustados o desajustados
 
 Basandonos en las matrices de confusión de los modelos podemos decir que los modelos no estas sobreajustados debido a que el porcentaje de casi todos pasa el 80% lo que indica que es un buen modelo.  
 
-##Pregunta 8. Compare los resultados obtenidos con los diferentes modelos que hizo en cuanto a efectividad, tiempo de procesamiento y equivocaciones.
+## Pregunta 8. Compare los resultados obtenidos con los diferentes modelos que hizo en cuanto a efectividad, tiempo de procesamiento y equivocaciones.
 ```{r}
 ##Tiempo de procesamiento
 
@@ -259,12 +258,12 @@ print("Tiempo promedio de entrenamiento modelos polinomiales: ")
 ```
 Se observa como los modelos polinomiales son los que menos promedio de tiempo de entrenamiento tienen, a este le siguen los modelos radiales y de ultimo quedan los modelos lineales. Con respecto a la eficacia se observa que el mejor modelo es"" debido a su promedio de accuracy. Al observar el error observamos que el mejor modelo fue "" con un error de "".
 
-##Pregunta 9. Comparación con otros modelos.
+## Pregunta 9. Comparación con otros modelos.
 
 Comparando los resultados de todas las hojas se puede observar que los modelos de random forest, Naive Bayes y svm presentan resultados muy cercanos con valor aproximado promedio de 90% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Naive Bayes, siendo el primer lugar con un 94.76%
 
 
-##Pregunta 10. Genere un buen modelo de regresión
+## Pregunta 10. Genere un buen modelo de regresión
 
 ```{r, echo =FALSE}
 modeloreg<-svm(as.factor(clasificacion)~., data=train, cost=c(0.01,0.5,1,1.5), gamma = c(0.01,1,1.5,11), coef0 = 0, kernel="sigmoid")
@@ -278,7 +277,7 @@ confusionMatrix(as.factor(test$clasificacion),as.factor(pred))
 ```
 
 
-##Pregunta 11. . Compare los resultados del modelo de regresión generado con los de hojas anteriores que utilicen la misma variable, como la de regresión lineal. 
+## Pregunta 11. . Compare los resultados del modelo de regresión generado con los de hojas anteriores que utilicen la misma variable, como la de regresión lineal. 
 
 Comparando los resultados de todas las hojas se puede observar que los modelos de árboles de decisión, regresión lineal y svm presentan resultados muy cercanos con valor aproximado de 85% de precisión. Sin embargo el modelo que tuvo un mayor accuracy es el de Árboles de decisión. 
 
